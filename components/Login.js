@@ -1,9 +1,11 @@
 import React, {useState} from 'react'
 import Layout from 'containers/Layout'
+import { memberLogin } from 'api';
 
 export default function Login(){
     const[inputs,setInputs] = useState({})
-    const{name,pw} = inputs;
+    const[result, setResult] = useState('')
+    const{id, pw, name} = inputs;
 
     const handleChange = (e) =>{
         e.preventDefault()
@@ -12,26 +14,30 @@ export default function Login(){
     }
     const handleClick = (e) =>{
         e.preventDefault()
-        const calcRequest = {name,pw}
-        alert(` 입력한 아이디 비밀번호 : ${JSON.stringify(calcRequest)}`)
-    }
+        memberLogin({id, pw, name})
+        .then(res => setResult(res.data)).catch( err => console.log(`에러발생 : ${err}`))
+   }
 
     return (<Layout><h1>로그인폼</h1>
     <form>
     <div>
-    <label><b>name</b></label>
-    <input type="text" name = "name" onChange={handleChange} /><br />
+    <label><b>ID : </b></label>
+    <input type="text" name = "id" onChange={handleChange} /><br />
 
-    <label htmlFor=""><b>pw</b></label>
+    <label htmlFor=""><b>PW : </b></label>
     <input type="text" name = "pw" onChange={handleChange} /><br />
 
-    <button onClick={handleClick}>Longin체크</button>
+    <label htmlFor=""><b>Name : </b></label>
+    <input type="text" name = "name" onChange={handleChange} /><br />
+
+    <button onClick={handleClick}>제출</button>
     </div>
     <div>
     <button>Cancel</button><br />
     <span>비밀번호 <a>찾기</a></span>
     </div>
     </form>
+    <div>계산결과 : {result}</div>
     </Layout>
     )
 }

@@ -8,7 +8,7 @@ const [res, setRes] = useState('')
 const {num1,opcode, num2} = inputs;
 
 const handleChange = (e) =>{
-    e.preventDefault()
+        e.preventDefault()
         const{value, name} = e.target;
         setInputs({ ...inputs, [name] : value})
     }
