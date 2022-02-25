@@ -1,17 +1,13 @@
 import React, { useState } from 'react' 
 import Layout from 'containers/Layout'
-import axios from 'axios';
-import { useLinkClickHandler } from 'react-router-dom';
+import { memberBmi } from 'api/index';
 
 export default function Bmi (){
-/*
-    const [username, setUsername] = useState("");
-    const [height, setHeight] = useState(0.0);
-    const [weight, setWeight] = useState(0.0);
-*/
-    const [inputs, setInputs] = useState({})
-    const { name, weight, height } = inputs; // Object  Destructuring
 
+    const [inputs, setInputs] = useState({})
+    const [res, setRes] = useState('')
+    const { name, weight, height } = inputs; // Object  Destructuring
+    
     const handleChange = (e) => {
         e.preventDefault()
         const {value, name } = e.target;
@@ -19,34 +15,14 @@ export default function Bmi (){
     }
     const handleClick = (e) => {
         e.preventDefault()
-        const bmiRequest = {name,weight,height}
-        alert(` 사용자이름: ${JSON.stringify(bmiRequest)}`)
-        /*
-        axios.get(`http://localhost:8080/member/bmi/김길동/180.5/80.5`)
-            .then((res)=>{
-                alert(`답장이 도착했습니다 [내용] ${JSON.stringify(res.data)}`)
-            })*/
+        memberBmi({name,weight,height})
+        .then(res => setRes(res.data)).catch( err => console.log(`에러발생 : ${err}`))
     }
-    /*
-    const result = () => {
-
-        let username = document.getElementById('username').value
-        console.log('username :' + username)
-        let height =document.getElementById('height').value
-        console.log('height : ' + height) 
-        let weight = document.getElementById('weight').value
-        console.log('weight : ' + weight)
-        setUsername(username)
-        setHeight(height)
-        setWeight(weight)
-    }
-    */
 
     return (<Layout>
-    <form>
+    <form action = "">
     <h1>Bmi폼</h1>
-    <div>
-
+    
     <label><b>Username</b></label>
     <input type="text" name = "name" onChange={handleChange} /><br />
 
@@ -57,20 +33,8 @@ export default function Bmi (){
     <input type="text" name = "weight" onChange={handleChange} /><br />
     
     <button onClick={handleClick}>BMI 체크</button>
-    
-    </div> 
     </form>
+    <div>BMI 결과 : {res}</div>
     </Layout>)
 }
  
-/*
-    <label><b>Username</b></label>
-    <input id = "username" type="" /><br />
-    <label htmlFor=""><b>height</b></label>
-    <input id = "height" type="" /><br />
-    <label htmlFor=""><b>weight</b></label>
-    <input id = "weight" type="" /><br />
-    
-    <button onClick={() => {result()}}>제출하기</button>
-    <div>이름 : {username} , 키 : {height} , 몸무게 : {weight}</div>
-*/

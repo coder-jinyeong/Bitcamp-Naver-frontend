@@ -2,41 +2,37 @@ import React, { useState } from 'react'
 import Layout from 'containers/Layout';
 
 export default function Grade(){
-    const [username, setUsername] = useState("");
-    const [kor, setKor] = useState(0);
-    const [eng, setEng] = useState(0);
-    const [math, setMath] = useState(0);    
-    const result = () => {
-        let username = document.getElementById('username').value
-        console.log('username : ' + username)
-        let kor = document.getElementById('kor').value
-        console.log('kor : ' + kor)
-        let eng = document.getElementById('eng').value
-        console.log('eng : ' + eng)
-        let math = document.getElementById('math').value
-        console.log('math : ' + math)
-        setUsername(username)
-        setKor(kor)
-        setEng(eng)
-        setMath(math)
+    const[inputs,setInputs] = useState({})
+    const{username,kor,eng,math} = inputs;
+
+    const handleChange = (e) =>{
+        e.preventDefault()
+        const{value, name} = e.target;
+        setInputs({ ...inputs, [name] : value})
     }
-    return <Layout><h1>Grade폼</h1>
-
+    const handleClick = (e) =>{
+        e.preventDefault()
+        const calcRequest = {username,kor,eng,math}
+        alert(` 입력한 이름, 국어, 영어, 수학 : ${JSON.stringify(calcRequest)}`)
+    }
     
+    return <Layout><h1>Grade폼</h1>
+    <form>
     <div>
-    <label><b>Username</b></label>
-    <input id = "username" type="" /><br />
+    <label><b>username</b></label>
+    <input type="text" name = "username" onChange={handleChange} /><br />
 
-    <label htmlFor=""><b>국어 점수</b></label>
-    <input id = "kor" type="" /><br />
+    <label htmlFor=""><b>kor</b></label>
+    <input type="text" name = "kor" onChange={handleChange} /><br />
 
-    <label htmlFor=""><b>영어 점수</b></label>
-    <input id = "eng" type="" /><br />
+    <label htmlFor=""><b>eng</b></label>
+    <input type="text" name = "eng" onChange={handleChange} /><br />
 
-    <label htmlFor=""><b>수학 점수</b></label>
-    <input id = "math" type="" /><br />
-    <button onClick={() =>{result()}}>출력하기</button>
-    <div>이름 : {username} , 국어 : {kor} , 영어 : {eng} , 수학 : {math}</div>
-    </div>    
+    <label htmlFor=""><b>math</b></label>
+    <input type="text" name = "math" onChange={handleChange} /><br />
+
+    <button onClick={handleClick}>Grade체크</button>
+    </div> 
+    </form>   
     </Layout>
 }

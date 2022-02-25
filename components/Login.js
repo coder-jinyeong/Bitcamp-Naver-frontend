@@ -2,35 +2,36 @@ import React, {useState} from 'react'
 import Layout from 'containers/Layout'
 
 export default function Login(){
-    const [name, setName] = useState("");
-    const [pw, setPw] = useState("");
-    const result = () => {
-        let name = document.getElementById('name').value
-        console.log('name : ' + name)
-        let pw = document.getElementById('pw').value
-        console.log('pw : ' + pw)
-        setName(name)
-        setPw(pw)
+    const[inputs,setInputs] = useState({})
+    const{name,pw} = inputs;
+
+    const handleChange = (e) =>{
+        e.preventDefault()
+        const{value, name} = e.target;
+        setInputs({ ...inputs, [name] : value})
+    }
+    const handleClick = (e) =>{
+        e.preventDefault()
+        const calcRequest = {name,pw}
+        alert(` 입력한 아이디 비밀번호 : ${JSON.stringify(calcRequest)}`)
     }
 
     return (<Layout><h1>로그인폼</h1>
-  
+    <form>
     <div>
-    <label><b>이름</b></label>
-    <input id = 'name' type="" /><br />
+    <label><b>name</b></label>
+    <input type="text" name = "name" onChange={handleChange} /><br />
 
-    <label htmlFor=""><b>비밀번호</b></label>
-    <input id = 'pw' type="" /><br />
+    <label htmlFor=""><b>pw</b></label>
+    <input type="text" name = "pw" onChange={handleChange} /><br />
 
-    <button onClick={() => {result()}}>Login</button><br />
-    <label><input type="checkbox" />기억하기</label><br />
-    <div>이름 : {name} 비밀번호 : {pw}</div>
-    
+    <button onClick={handleClick}>Longin체크</button>
     </div>
     <div>
     <button>Cancel</button><br />
     <span>비밀번호 <a>찾기</a></span>
     </div>
+    </form>
     </Layout>
     )
 }
